@@ -1,5 +1,7 @@
 define(["model/cjs-loader", "model/manifest-loader", "view/cjs_npc_demo", "underscore"], function (cjsloader, manifestloader, cjs_npc_demo, _) {
     loadCJS = function (fileList) {
+        console.log('fileList');
+        console.log(fileList);
         // Add "summon_damage" files for corresponding "summon_attack" files.
         let originalLength = fileList.length;
         for (let i = 0; i < originalLength; ++i) {
@@ -16,6 +18,8 @@ define(["model/cjs-loader", "model/manifest-loader", "view/cjs_npc_demo", "under
             deferred
     };
     loadManifest = function (fileList) {
+        console.log('fileList');
+        console.log(fileList);
         var deferred = $.Deferred();
 
         // Gather all manifest data related to the given file list.
@@ -50,6 +54,8 @@ define(["model/cjs-loader", "model/manifest-loader", "view/cjs_npc_demo", "under
             deferred
     };
     prepareCjs = function () {
+        console.log('prepareCjs');
+
         var my = this;
         my.cjsViewList = []; // List of CJS views.
         var loadFiles = []; // Aggregate list of files to load.

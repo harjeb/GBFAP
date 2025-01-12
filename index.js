@@ -1,6 +1,6 @@
 // constant
-const LOCAL = false; // set to true if assets are on the same machine
-const CORS = 'https://gbfcp2.onrender.com/' // CORS Proxy to use (if LOCAL is true)
+const LOCAL = true; // set to true if assets are on the same machine
+const CORS = 'http://localhost:8001/'
 const HISTORY_LENGTH = 20; // size limit of the history
 const ENDPOINTS = [ // possible asset endpoints, used for the index
     "https://prd-game-a-granbluefantasy.akamaized.net/",
@@ -95,7 +95,7 @@ var Game = LOCAL ? // Game variable used by GBF scripts
     soundUri: "https://prd-game-a5-granbluefantasy.akamaized.net/assets_en/sound/",
     externUri: 'https://prd-game-a1-granbluefantasy.akamaized.net/assets_en', // direct access to GBF
     bgUri: 'https://prd-game-a1-granbluefantasy.akamaized.net/assets_en/', // for backgrounds
-    testUri: CORS + 'assets/test.png', // to test if the server is setup
+    testUri: CORS , // to test if the server is setup
     setting: {}
 };
 var debug_path = null;
@@ -143,7 +143,10 @@ function get(url, callback, err_callback, id) {
     xhr.onerror = function() {
         err_callback.apply(xhr, [id]);
     };
+    console.log(url);
     xhr.open("GET", url, true);
+    // 添加必要的请求头
+    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     xhr.timeout = 150000;
     xhr.send(null);
 }
@@ -364,6 +367,8 @@ function initIndex(unused)
 
 function loadCharacter(id)
 {
+
+    console.log('loadCharacter');
     let el = id.split("_");
     let style = "";
     if(el.length == 2)
@@ -544,6 +549,8 @@ function failLoading(id)
 
 function startplayer(id)
 {
+
+    console.log(id);
     beep();
     if(id.startsWith("38") && id.length >= 10)
     {
@@ -594,7 +601,7 @@ function startplayer(id)
     // enable favorite
     favButton(true, id, id.length == 7 ? 4 : id.startsWith('10') ? 1 : id.startsWith('20') ? 2 : id.startsWith('38') ? 6 : (id.startsWith('30') || id.startsWith('37') ? 3 : 0));
 
-    // load everything and start!
+    console.log('load everything and start!');
     require(['createjs'], function() {
         hotfix_createjs(); // apply fix (see below)
         require(["jquery","underscore","backbone", 'player', 'view/cjs', 'script', 'jquery', 'underscore', 'model/cjs-loader']);
@@ -694,6 +701,7 @@ function playerFail(id)
 // on success requesting a debug character json
 function successJSON(id)
 {
+    console.log('successJSON');
     is_mc = (!id.startsWith("3") || (id.length == 6));
     AnimeData = JSON.parse(this.response); // parse the data
     if('id' in AnimeData[1][0]) mc_id = AnimeData[1][0]['id'];

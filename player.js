@@ -24,6 +24,8 @@ cjs.canvas = {};
 cjs.stage = {};
 cjs.exportRoot = {};
 
+
+console.log(AnimeData);
 for (i in action_index) {
     action_index[i].action_label_list =Array.from(action_index[i].action_label_list)
 }
@@ -216,6 +218,7 @@ function resetTexture(name)
 function openTexture()
 {
     if(!canInteract()) return;
+    alert('start');
     let tact = document.getElementById("texture-action");
     if(sub_menu_open || tact.style.display == "") return;
     beep();
@@ -334,6 +337,7 @@ function resetCustom()
 
 function updateDemoList()
 {
+    console.log('update');
     let html = "";
     let i = 0;
     for(const action of demo_list[animeVersion])

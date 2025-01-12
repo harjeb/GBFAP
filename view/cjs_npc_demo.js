@@ -269,6 +269,8 @@ define(["view/cjs", "view/content", "underscore"], function (cjsview, content, _
             this.cjsPosList = params.cjsPosList || [];
             this.cjsMortalPosList = params.cjsMortalPosList || [];
             action_list.motionList = params.motionList;
+            console.log('motionList');
+            console.log(params.motionList);
             this.canvasSelector = params.canvasSelector;
             this.canvasIndex = params.canvasIndex;
             for(var c = this.cjsMortalList.length, d = 0; c > d; d++) // iterate over ougis in reverse order
@@ -288,6 +290,10 @@ define(["view/cjs", "view/content", "underscore"], function (cjsview, content, _
             this.updateCjsParams(this.currentIndex);
         },
         getLoadFiles: function () { // file loader
+            console.log("cjsList");
+            console.log(this.cjsList);
+            console.log("cjsEffectList");
+            console.log(this.cjsEffectList);
             var files = _.flatten([this.cjsList, this.cjsEffectList]);
             return _.each(this.cjsMortalList, function (mortal) {
                 _.each(mortal.list, function (mortal) {
@@ -574,6 +580,10 @@ define(["view/cjs", "view/content", "underscore"], function (cjsview, content, _
         },
         startAnim: function(elem, motion) // start given animation (called motion)
         {
+
+            console.log(elem);
+            console.log(motion); //修改动画类型
+            motion = 'mortal_A';
             function addOugi(mortal) // ougi animations (characters or enemies)
             {
                 me.cjsMortal = new lib[mortal];
@@ -760,6 +770,7 @@ define(["view/cjs", "view/content", "underscore"], function (cjsview, content, _
                 case animations.MORTAL_K_1:
                 case animations.MORTAL_K_2:
                 { // ougi call
+                    console.log('start ougi');
                     this.currentIndex = motion.split('_')[1].charCodeAt()-65;
                     if(this.currentIndex >= this.cjsMortalList.length)
                         this.currentIndex=0;

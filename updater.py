@@ -1336,6 +1336,8 @@ class Updater():
                 # playable
                 if "v" in v:
                     for l in v["v"]:
+                        if not l[3]: # gran
+                            continue
                         await self.dl_queue.put(("model/manifest/", l[1]+".js")) # chara
                         await self.dl_queue.put(("model/manifest/", l[3]+".js")) # phit
                         if isinstance(l[4], list): # sp
@@ -1401,13 +1403,16 @@ class Updater():
                     continue
             elif path == "cjs/":
                 # extract mp3 paths from cjs
-                audios = self.MP3_SEARCH.findall(data.decode('utf-8'))
-                for a in audios:
-                    s = a[1:-1].split('/', 1)
-                    if len(s) == 2:
-                        await self.dl_queue.put(('sound/'+s[0]+'/', s[1]))
-                    else:
-                        print("Warning: Skipped the following potential sound:", a)
+                try:
+                    audios = self.MP3_SEARCH.findall(data.decode('utf-8'))
+                    for a in audios:
+                        s = a[1:-1].split('/', 1)
+                        if len(s) == 2:
+                            await self.dl_queue.put(('sound/'+s[0]+'/', s[1]))
+                        else:
+                            print("Warning: Skipped the following potential sound:", a)
+                except Exception as e:
+                    continue
 
     def loadIndex(self) -> None:
         try:
